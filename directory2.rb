@@ -25,7 +25,9 @@ def process(selection)
     exit # this will cause the program to terminate
   when "3"
     save_students
+    puts "Student's saved"
   when "4"
+    puts "Loading students"
     load_students
   else
     puts "I don't know what you meant, try again"
