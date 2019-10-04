@@ -8,6 +8,7 @@ def input_students
   name = gets.split("\n").join
 
   # while the name is not empty, repeat this code
+  #Completed exercise 10
   while !name.empty? do
     # add the student hash to the array
     students << {name: name, cohort: :November}
@@ -30,6 +31,7 @@ students.each_with_index do |student, index|
   end
 end
 
+#Completed exercise 9
 def print_footer(names)
 if names.count == 1
   puts "Overall, we have #{names.count} great student"
