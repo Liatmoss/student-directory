@@ -1,49 +1,41 @@
+
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # create an empty array
   students = []
   # get the first name
-  name = gets.chomp
-  puts "Students favourite hobby"
-  hobby = gets.chomp
+  name = gets.split("\n").join
+
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
-    students << {name: name, cohort: :november, hobby: hobby}
+    students << {name: name, cohort: :November}
     puts "Now we have #{students.count} students"
     # get another name and hobby from the user
-    puts "Please enter the names of the students"
-    name = gets.chomp
-    puts "Students favourite hobby"
-    hobby = gets.chomp
+    name = gets.split("\n").join
   end
   # return the array of students
   students
 end
 
 def print_header
-  puts "The students of Villains Academy".center(50)
-  puts "-------------".center(50)
+  puts "The students of Villains Academy"
+  puts "-------------"
 end
 
-@students_by_cohort = {}
-
 def print(students)
-students.each do |x|
-  c = x[:cohort]
-  n = x[:name]
-
-  if @students_by_cohort[c] == nil
-    @students_by_cohort[c] = []
+students.each_with_index do |student, index|
+    puts "#{[index + 1]}#{student[:name]} (#{student[:cohort]} cohort)"
   end
-  @students_by_cohort[c].push(n)
-  end
-  puts @students_by_cohort.to_a
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students".center(50)
+if names.count == 1
+  puts "Overall, we have #{names.count} great student"
+else
+  puts "Overall, we have #{names.count} great students"
+end
 end
 
 students = input_students
