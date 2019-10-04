@@ -35,14 +35,10 @@ end
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  # get the first name
   name = STDIN.gets.chomp
-  # while the name is not empty, repeat this code
   while !name.empty? do
-    # add the student hash to the array
     student_inputs(name, "November")
     puts "Now we have #{@students.count} students"
-    # get another name from the user
     name = STDIN.gets.chomp
   end
 end
@@ -90,11 +86,7 @@ def load_students(filename = "students.csv")
 end
 
 def try_load_students
-  if filename = ARGV.first
-    filename = ARGV.first
-  else
-    filename = "students.csv"
-  end
+ARGV.first ? filename = ARGV.first : filename = "students.csv"
   puts filename
   return if filename.nil? # get out of the method if it isn't given
   if File.exists?(filename) # if it exists
