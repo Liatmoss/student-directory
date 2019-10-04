@@ -27,7 +27,6 @@ def process(selection)
     save_students
     puts "Student's saved"
   when "4"
-    puts "Loading students"
     load_students
   else
     puts "I don't know what you meant, try again"
@@ -70,19 +69,21 @@ def save_students
   # open the file for writing
   puts "What file would you like to save in?"
   user_save = STDIN.gets.chomp
-  file = File.open(user_save, "w")
-  # iterate over the array of students
-  @students.each do |student|
+  File.open(user_save, "w") {|file_open|
+    @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
-    file.puts csv_line
+    file_open.puts csv_line
   end
-  file.close
+  }
 end
 
 def load_students(filename = "students.csv")
   puts "What file would you like to load?"
   user_file = STDIN.gets.chomp
+  if user_file != ""
+    file_name = user_file
+  end
   file = File.open(user_file, "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
@@ -97,7 +98,7 @@ ARGV.first ? filename = ARGV.first : filename = "students.csv"
   return if filename.nil? # get out of the method if it isn't given
   if File.exists?(filename) # if it exists
     load_students(filename)
-     puts "Loaded #{@students.count} from #{filename}"
+    puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
     puts "Sorry, #{filename} doesn't exist."
     exit # quit the program
