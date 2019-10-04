@@ -23,17 +23,21 @@ end
 def print_header
   puts "The students of Villains Academy"
   puts "-------------"
+
 end
 
 def print(students)
-students.each_with_index do |student, index|
+  students.each_with_index do |student, index|
     puts "#{[index + 1]}#{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 
+
 #Completed exercise 9
 def print_footer(names)
-if names.count == 1
+if names.count == 0
+  puts "There are no students in this class"
+elsif names.count == 1
   puts "Overall, we have #{names.count} great student"
 else
   puts "Overall, we have #{names.count} great students"
