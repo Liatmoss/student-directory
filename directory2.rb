@@ -1,4 +1,5 @@
 @students = [] # an empty array accessible to all methods
+require 'csv'
 
 def print_menu
   puts "1. Input the students"
@@ -69,13 +70,14 @@ def save_students
   # open the file for writing
   puts "What file would you like to save in?"
   user_save = STDIN.gets.chomp
-  File.open(user_save, "w") {|file_open|
+  user_save == "" ? "students.csv" : user_save
+
+  CSV.open(user_save, "wb") do |csv|
     @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file_open.puts csv_line
+      csv << [student[:name], student[:cohort]]
+    end
   end
-  }
+  puts "Saved #{@students.length} students to file"
 end
 
 def load_students(filename = "students.csv")
@@ -84,12 +86,15 @@ def load_students(filename = "students.csv")
   if user_file != ""
     file_name = user_file
   end
+  csv_file = CSV.read(filename)
+  for entry in csv_file
+    p entry
+  end
   file = File.open(user_file, "r")
-  file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
+  csv_file.each do |line|
+  name, cohort = line
   student_inputs(name, cohort)
   end
-  file.close
 end
 
 def try_load_students
