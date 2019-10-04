@@ -4,25 +4,27 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
+  puts "4. Load the list from students.csv"
   puts "9. Exit"
 end
 
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
 def process(selection)
   case selection
     when "1"
-      @students = input_students
+      input_students
     when "2"
-      print_header
-      print(@students)
+      show_students
     when "3"
       save_students
+    when "4"
+      load_students
     when "9"
       exit #this will cause the program to terminate
     else
@@ -30,19 +32,18 @@ def process(selection)
   end
 end
 
-
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # get the first name
-  name = gets.chomp
+  name = STDIN.gets.chomp
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
     @students << {name: name, cohort: :november}
     puts "Now we have #{@students.count} students"
     # get another name from the user
-    name = gets.chomp
+    name = STDIN.gets.chomp
   end
   # return the array of students
   @students
@@ -75,13 +76,25 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
       @students << {name: name, cohort: cohort.to_sym}
     end
     file.close
+end
+
+def try_load_students
+  filename = ARGV.first #first argument from the command csv_line
+  return if filename.nil? #get out of the method if it isn't given
+  if File.exists?(filename) #if exists
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else #if it doens't exists
+    puts "Sorry, #{filename} doesn't exist."
+    exit #quit program
+  end
 end
 
 def show_students
@@ -90,4 +103,5 @@ def show_students
   print_footer
 end
 
+try_load_students
 interactive_menu
